@@ -30,6 +30,8 @@ SELECT last_name || '의 직업은 ' || job_id || ' 입니다' as "사원별 직
 SELECT job_id FROM employees;
 SELECT distinct job_id FROM employees;
 
+------------------------------------------------------------------------------------------------------------------
+
 -- 8. where 절 비교연산자
 SELECT employee_id,last_name,job_id, salary FROM employees WHERE salary >= 10000;
 
@@ -46,6 +48,8 @@ WHERE salary BETWEEN 7000 AND 8000;
 
   -- 날짜도 가능
 SELECT employee_id,last_name,salary,hire_date FROM employees WHERE hire_date BETWEEN '07/01/01' AND '08/12/31';
+  -- 문자도 가능
+SELECT FIRST_NAME FROM EMPLOYEES where FIRST_NAME BETWEEN 'A' AND 'C';
 
 -- 9. in 연산자
 SELECT employee_id,last_name,salary,hire_date FROM employees WHERE employee_id IN ( 100,200,300 );
@@ -258,4 +262,3 @@ SELECT FLOOR(10.6), FLOOR(-10.6) FROM dual;
 SELECT SIGN( 100 ) , SIGN(-20) , SIGN(0) FROM dual;
 SELECT employee_id, last_name, salary FROM employees WHERE SIGN(salary-15000)=1; 
         -- salary-15000했을 때 음수인 값 => salary>15000인 값
-
