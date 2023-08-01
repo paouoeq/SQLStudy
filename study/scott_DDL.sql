@@ -290,3 +290,86 @@ select * from user_constraints where table_name = 'S1';
 select * from user_constraints where table_name = 'M1';
 
 drop table m1 cascade constraints; -- m1테이블 삭제, s1의 FK 제약조건 삭제
+
+--==============================================================================
+
+-- 테이블 변경(ALTER)
+--실습테이블 생성
+CREATE TABLE emp04
+AS
+SELECT * FROM emp;
+
+select * from emp04;
+
+-- 컬럼 추가
+ALTER TABLE emp04
+ADD ( email VARCHAR2(10) , address VARCHAR2(20) );
+
+-- 크기 변경
+ALTER TABLE emp04
+MODIFY ( email VARCHAR2(40) );
+
+ALTER TABLE emp04
+MODIFY ( email VARCHAR2(5) );
+
+desc emp04;
+
+-- 데이터타입 변경
+ALTER TABLE emp04
+MODIFY ( email number(5) );
+
+-- 컬럼 삭제
+ALTER TABLE emp04
+DROP ( email );
+
+CREATE TABLE dept03
+( deptno NUMBER(2),
+ dname VARCHAR2(15),
+ loc VARCHAR2(15)
+);
+
+-- 제약조건 추가
+-- primary key
+alter table dept03
+add constraint dept03_deptno_pk primary key(deptno);
+
+-- unique
+alter table dept03
+add constraint dept03_loc_uk unique(loc);
+
+-- not null
+alter table dept03
+modify (dname VARCHAR2(15) constraint dept03_dname_nn not null);
+
+-- 제약조건 삭제
+-- primary key 삭제 2가지 방법
+alter table dept03
+drop primary key;
+
+alter table dept03
+drop constraint dept03_deptno_pk;
+
+-- unique 삭제 2가지 방법
+alter table dept03
+drop unique(loc);
+
+alter table dept03
+drop constraint dept03_loc_uk;
+
+-- notnull 삭제
+alter table dept03
+drop constraint dept03_dname_nn;
+
+select * from user_constraints where table_name='DEPT03';
+
+
+-- cascade 옵션
+-- m2의 primary key 삭제
+alter table m2
+drop primary key; -- 오류 : s2의 fk가 참조하고 있기 때문
+-- 해결법 : cascade 옵션
+alter table m2
+drop primary key cascade; -- 참조하는 fk 제약조건도 같이 삭제
+
+select * from user_constraints where table_name='M2';
+select * from user_constraints where table_name='S2';
